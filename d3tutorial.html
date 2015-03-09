@@ -8,41 +8,34 @@
 		
 		<script>
 
-		    var dataArray = [20, 40, 50, 60];
+		  d3.json("mydata.json", function(data) {
 
-		    var width = 500;
-		    var height = 500;
+		  	var canvas = d3.select("body").append("svg")
+		  		.attr("width", 500)
+		  		.attr("height", 500)
 
-		    var widthScale = d3.scale.linear().domain([0, 60]).range([0, width]);
-		    var color = d3.scale.linear()
-		    	.domain([0, 60])
-		    	.range(["green", "red"]);
+		  	canvas.selectAll("rect")
+		  		.data(data)
+		  		.enter()
+		  			.append("rect")
+		  			.attr("width", function (d) {return d.age * 10;})
+		  			.attr("height", 48)
+		  			.attr("y", function (d, i) {return i * 50;})
+		  			.attr("fill", "blue");
 
-		   	var axis = d3.svg.axis()
-		   		.ticks(5)//will change how many numbers show up on the scale after the number 0
-		   		.scale(widthScale);
+		  	canvas.selectAll("text")
+		  		.data(data)
+		  		.enter()
+		  			.append("fill", "white")
+		  			.attr("y", function (d, i) {return i * 50 + 24;})
+		  			.text(function (d) {return d.name;})	
 
-		    var canvas = d3.select("body")
-		      .append("svg")
-		      .attr("width", width)
-		      .attr("height", height)
-		      .append("g")
-		      .attr("transform", "translate(50, 50)")
+		  });
 
 
 
-		    var bars = canvas.selectAll("rect")
-		      .data(dataArray)
-		      .enter()
-		        .append("rect")
-		        .attr("width", function(d) { return widthScale(d)})
-		        .attr("height", 50)
-		        .attr("fill", function(d) {return color(d) })
-		        .attr("y", function(d, i) { return i * 100});
 
-		    canvas.append("g")
-		    	.attr("transform", "translate(0, 400)")
-		    	.call(axis);
+
 
 		</script>
 
