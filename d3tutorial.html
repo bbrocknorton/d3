@@ -18,10 +18,18 @@
 		    	.domain([0, 60])
 		    	.range(["green", "red"]);
 
+		   	var axis = d3.svg.axis()
+		   		.ticks(5)//will change how many numbers show up on the scale after the number 0
+		   		.scale(widthScale);
+
 		    var canvas = d3.select("body")
 		      .append("svg")
 		      .attr("width", width)
-		      .attr("height", height);
+		      .attr("height", height)
+		      .append("g")
+		      .attr("transform", "translate(50, 50)")
+
+
 
 		    var bars = canvas.selectAll("rect")
 		      .data(dataArray)
@@ -31,6 +39,10 @@
 		        .attr("height", 50)
 		        .attr("fill", function(d) {return color(d) })
 		        .attr("y", function(d, i) { return i * 100});
+
+		    canvas.append("g")
+		    	.attr("transform", "translate(0, 400)")
+		    	.call(axis);
 
 		</script>
 
